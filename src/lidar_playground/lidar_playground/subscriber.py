@@ -1,22 +1,35 @@
 import rclpy
 from rclpy.node import Node
 
-from sensor_msgs.msg import PointCloud2
+from sensor_msgs.msg import PointCloud2, Imu
 
 
 class Subscriber(Node):
-
     def __init__(self):
         super().__init__('subscriber')
-        self.subscription = self.create_subscription(
+        self.subscription_to_cloud = self.create_subscription(
             PointCloud2,
             'unilidar/cloud',
-            self.listener_callback,
-            10)
-        self.subscription  # prevent unused variable warning
+            self.cloud_listener_callback,
+            10
+        )
 
-    def listener_callback(self, msg):
-        self.get_logger().info('I heard: "%s"' % msg.data)
+        self.subscription_to_imu = self.create_subscription(
+            Imu,
+            'unilidar/imu',
+            self.imu_listener_callback,
+            10
+        )
+
+        self.subscription_to_cloud  # prevent unused variable warning
+        self.subscription_to_imu  # prevent unused variable warning
+
+    def cloud_listener_callback(self, msg):
+        self.get_logger().info('Cloud: I heard: "%s"' % msg.data)
+
+    def imu_listener_callback(self, msg):
+        pass
+        # self.get_logger().info('IMU: I heard: "%s"' % msg)
 
 
 def main(args=None):
