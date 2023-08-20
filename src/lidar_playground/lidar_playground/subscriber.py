@@ -21,15 +21,15 @@ class Subscriber(Node):
             10
         )
 
-        self.subscription_to_cloud  # prevent unused variable warning
-        self.subscription_to_imu  # prevent unused variable warning
+        # prevent unused variable warning
+        self.subscription_to_cloud
+        self.subscription_to_imu
 
     def cloud_listener_callback(self, msg):
         self.get_logger().info('Cloud: I heard: "%s"' % msg.data)
 
     def imu_listener_callback(self, msg):
-        pass
-        # self.get_logger().info('IMU: I heard: "%s"' % msg)
+        self.get_logger().info('IMU: I heard: "%s"' % msg)
 
 
 def main(args=None):
